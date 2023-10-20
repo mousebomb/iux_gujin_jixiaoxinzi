@@ -1,15 +1,33 @@
-import {FieldType, IFieldConfig, IOpenSegmentType, IOpenTextSegment} from "@base-open/web-api";
+import {
+    FieldType,
+    IFieldConfig,
+    IOpenCellValue, IOpenLink,
+    IOpenSegmentType,
+    IOpenSingleSelect,
+    IOpenTextSegment
+} from "@lark-base-open/js-sdk";
 
 export default  class BitableHelper{
     //创建引用数值
-    public static createOpenLink(recordId:string,tableId:string){
+    public static createOpenLink(recordId:string,tableId:string):IOpenLink{
         return {
             record_ids: [
                 recordId
             ],
+            recordIds: [
+                recordId
+            ],
             table_id: tableId,
+            tableId: tableId,
             text: "1",
             type: "text"
+        };
+    }
+    //创建单选值
+    public static createOpenSingleSelect(id:string,text:string):IOpenSingleSelect{
+        return {
+            id: id,
+            text:text
         };
     }
 
@@ -21,7 +39,7 @@ export default  class BitableHelper{
     }
 
     //新增字段：复选框
-    public static createFieldCheckBox(name:string,description:string ) :( IFieldConfig) {
+    public static createFieldCheckBox(name:string,description:string ) {
         return {
             name:name,
             description:{
@@ -32,7 +50,7 @@ export default  class BitableHelper{
         }
     }
     //新增字段：附件
-    public static createFieldAttachments(name:string,description:string ):IFieldConfig  {
+    public static createFieldAttachments(name:string,description:string )  {
         return {
             name:name,
             description:{
@@ -46,7 +64,7 @@ export default  class BitableHelper{
         }
     }
     //新增字段：文本
-    public static createFieldText(name:string,description:string ) :IFieldConfig {
+    public static createFieldText(name:string,description:string )  {
         return {
             name:name,
             description:{

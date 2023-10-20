@@ -1,4 +1,4 @@
-import { bitable, UIBuilder } from "@base-open/web-api";
+import {bitable, IOpenCellValue, IOpenSingleCellValue, IOpenSingleSelect, UIBuilder} from "@lark-base-open/js-sdk";
 import Config from "./config";
 import BitableHelper from "./bitableHelper";
 
@@ -51,11 +51,17 @@ export default async function main(uiBuilder: UIBuilder) {
   if (!gongziLeiXing) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_GZ_GongZiLeiXing}\`字段`); }
   //存储工资类型选项
   if(!gongziLeiXing.property) return uiBuilder.markdown(`检测不到\`${Config.FIELD_GZ_GongZiLeiXing}\`字段的选项`);
-  const options  = gongziLeiXing['property']['options'];
-  const gzTypeYuanGong=options.find((li)=> li.name== Config.OPTION_YuanGong);
-  const gzTypeDianZhang=options.find((li)=> li.name== Config.OPTION_DianZhangMgr);
-  const gzTypeQianTingMgr=options.find((li)=> li.name== Config.OPTION_QianTingMgr);
-  const gzTypeHouChuMgr=options.find((li)=> li.name== Config.OPTION_HouChuMgr);
+  if ('options' in gongziLeiXing['property']) {
+    // 使用 options 属性
+  } else {
+    // 处理属性不存在的情况
+    return uiBuilder.markdown(`检测不到\`${Config.FIELD_GZ_GongZiLeiXing}\`字段的选项`);
+  }
+  const options = gongziLeiXing['property']['options'];
+  const gzTypeYuanGong=options.find((li:any)=> li.name== Config.OPTION_YuanGong);
+  const gzTypeDianZhang=options.find((li:any)=> li.name== Config.OPTION_DianZhangMgr);
+  const gzTypeQianTingMgr=options.find((li:any)=> li.name== Config.OPTION_QianTingMgr);
+  const gzTypeHouChuMgr=options.find((li:any)=> li.name== Config.OPTION_HouChuMgr);
 
   //输出表单
   // let t = new Date();
@@ -139,6 +145,12 @@ export default async function main(uiBuilder: UIBuilder) {
           {
             cellValueGongZiLeiXing = gzTypeHouChuMgr;
           }
+          if(cellValueGongZiLeiXing==null)
+          {
+            return uiBuilder.markdown("工资类型错误，无法识别："+cellStringGangWei);
+          }
+          //
+          let cellValueGongZiLeiXing2  = BitableHelper.createOpenSingleSelect(cellValueGongZiLeiXing.id,cellValueGongZiLeiXing.name );
           // //
           uiBuilder.showLoading('插入'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
           console.log('插入'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
@@ -159,7 +171,7 @@ export default async function main(uiBuilder: UIBuilder) {
             await gongziTable.addRecord({
                         fields: {
                             [gongziKaoQinZhouQi.id]: cellValueKaoQinZhouQi,
-                          [gongziLeiXing.id]:cellValueGongZiLeiXing,
+                            [gongziLeiXing.id]: cellValueGongZiLeiXing2,
                         }
             });
         }

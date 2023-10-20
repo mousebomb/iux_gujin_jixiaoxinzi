@@ -8,7 +8,7 @@ export default class Config {
     public static FIELD_HUAMINGCE_ShangYueShiFouZaiZhi: string = "上月是否在职";
     public static FIELD_HUAMINGCE_Name: string = "姓名";
     public static FIELD_HUAMINGCE_BENYUESHIFOUZAIZHI: string = "本月是否在职";
-  public static FIELD_HMC_GangWei: string = "岗位";
+  public static FIELD_HMC_GangWei: string = "岗位（级别）";
   public static FIELD_HMC_XianZhiXingGongZi: string = "现执行工资";
   public static FIELD_HMC_DianMian: string = "店面";
 
@@ -24,5 +24,13 @@ export default class Config {
   //工资表的字段：
     public static FIELD_TXT_XuHao: string = "序号";
     public static FIELD_REF_KaoQinZhouQi: string = "考勤周期";
+    public static FIELD_GZ_GongZiLeiXing: string = "工资类型";
+
+
+    //工资类型
+    public static OPTION_YuanGong: string = "员工";
+    public static OPTION_DianZhangMgr: string = "管理层-前厅-店长";
+    public static OPTION_QianTingMgr: string = "管理层-前厅";
+    public static OPTION_HouChuMgr: string = "管理层-后厨";
 
 }

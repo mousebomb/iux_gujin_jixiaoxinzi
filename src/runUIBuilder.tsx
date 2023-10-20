@@ -4,126 +4,147 @@ import BitableHelper from "./bitableHelper";
 
 export default async function main(uiBuilder: UIBuilder) {
   //先验证表格名称是否都存在
-  const sjglTable = await bitable.base.getTableByName(Config.TAB_NAME_SJGL);
-  const tjzbTable = await bitable.base.getTableByName(Config.TAB_NAME_TJZB);
-  if (!sjglTable) {
-    return uiBuilder.markdown(`检测不到\`${Config.TAB_NAME_SJGL}\`表`);
+  const huamingceTable = await bitable.base.getTableByName(Config.TAB_NAME_HUAMINGCE);
+  const kaoqinTable = await bitable.base.getTableByName(Config.TAB_NAME_KAOQIN);
+  const gongziTable = await bitable.base.getTableByName(Config.TAB_NAME_GONGZI);
+  if (!huamingceTable) {
+    return uiBuilder.markdown(`检测不到\`${Config.TAB_NAME_HUAMINGCE}\`表`);
   }
-  if (!tjzbTable) {
-    return uiBuilder.markdown(`检测不到\`${Config.TAB_NAME_TJZB}\`表`);
+  if (!kaoqinTable) {
+    return uiBuilder.markdown(`检测不到\`${Config.TAB_NAME_KAOQIN}\`表`);
+  }
+  if (!gongziTable) {
+    return uiBuilder.markdown(`检测不到\`${Config.TAB_NAME_GONGZI}\`表`);
   }
   //验证字段
-  const sjglFieldMetaList = await sjglTable.getFieldMetaList();
-  const sjglZhiJu = sjglFieldMetaList.find((li) => li.name == Config.FIELD_SJGL_ZJ);
-  const sjglKeHu = sjglFieldMetaList.find((li) => li.name == Config.FIELD_SJGL_KEHU);
-  const sjglYiShangBao = sjglFieldMetaList.find((li) => li.name == Config.FIELD_SJGL_YISHANGBAO);
-  const sjglYuJiJinE = sjglFieldMetaList.find((li) => li.name == Config.FIELD_SJGL_YUJIJINE);
-  if (!sjglZhiJu) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_SJGL_ZJ}\`字段`); }
-  if (!sjglKeHu) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_SJGL_KEHU}\`字段`); }
-  if (!sjglYiShangBao) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_SJGL_YISHANGBAO}\`字段`); }
-  if (!sjglYuJiJinE) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_SJGL_YUJIJINE}\`字段`); }
-
-  const tjzbFieldMetaList = await tjzbTable.getFieldMetaList();
-  const tjzbKeHu = tjzbFieldMetaList.find((li) => li.name == Config.FIELD_TJZB_KEHU);
-  if (!tjzbKeHu) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_TJZB_KEHU}\`字段`); }
+  const hmcFieldMetaList = await huamingceTable.getFieldMetaList();
+  const hmcShiFouZaiZhiLastMonth = hmcFieldMetaList.find((li) => li.name == Config.FIELD_HUAMINGCE_ShangYueShiFouZaiZhi);
+  if (!hmcShiFouZaiZhiLastMonth) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_HUAMINGCE_ShangYueShiFouZaiZhi}\`字段`); }
+  const hmcName = hmcFieldMetaList.find((li) => li.name == Config.FIELD_HUAMINGCE_Name);
+  if (!hmcName) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_HUAMINGCE_Name}\`字段`); }
+  const hmcGangWei = hmcFieldMetaList.find((li) => li.name == Config.FIELD_HMC_GangWei);
+  if (!hmcGangWei) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_HMC_GangWei}\`字段`); }
+  const hmcXianZhiXingGongZi = hmcFieldMetaList.find((li) => li.name == Config.FIELD_HMC_XianZhiXingGongZi);
+  if (!hmcXianZhiXingGongZi) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_HMC_XianZhiXingGongZi}\`字段`); }
+  const hmcDianMian = hmcFieldMetaList.find((li) => li.name == Config.FIELD_HMC_DianMian);
+  if (!hmcDianMian) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_HMC_DianMian}\`字段`); }
+  //
+  const kaoqinFieldMetaList = await kaoqinTable.getFieldMetaList();
+  const kaoqinYuanGong = kaoqinFieldMetaList.find((li) => li.name == Config.FIELD_REF_YuanGong);
+  if (!kaoqinYuanGong) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_REF_YuanGong}\`字段`); }
+  const kaoqinPrdStart = kaoqinFieldMetaList.find((li) => li.name == Config.FIELD_Date_PrdStart);
+  if (!kaoqinPrdStart) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_Date_PrdStart}\`字段`); }
+  const kaoqinSuoShuDianMian = kaoqinFieldMetaList.find((li) => li.name == Config.FIELD_KQ_SuoShuDianMian);
+  if (!kaoqinSuoShuDianMian) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_KQ_SuoShuDianMian}\`字段`); }
+  const kaoqinGangWei = kaoqinFieldMetaList.find((li) => li.name == Config.FIELD_KQ_GangWei);
+  if (!kaoqinGangWei) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_KQ_GangWei}\`字段`); }
+  const kaoqinXianZhiXingGongZi = kaoqinFieldMetaList.find((li) => li.name == Config.FIELD_KQ_XianZhiXingGongZi);
+  if (!kaoqinXianZhiXingGongZi) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_KQ_XianZhiXingGongZi}\`字段`); }
+//
+  const gongziFieldMetaList = await gongziTable.getFieldMetaList();
+  const gongziKaoQinZhouQi = gongziFieldMetaList.find((li) => li.name == Config.FIELD_REF_KaoQinZhouQi);
+  if (!gongziKaoQinZhouQi) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_REF_KaoQinZhouQi}\`字段`); }
+  const gongziXuHao = gongziFieldMetaList.find((li) => li.name == Config.FIELD_TXT_XuHao);
+  if (!gongziXuHao) { return uiBuilder.markdown(`检测不到\`${Config.FIELD_TXT_XuHao}\`字段`); }
 
   //输出表单
   // let t = new Date();
   // let tS = t.toString();
   uiBuilder.markdown(`
-  **商机上报**
+  **生成考勤表**
   `);
 
-  const selection = await bitable.base.getSelection();
-  // console.log("getSelection", selection);
-  // uiBuilder.showLoading('Loading...');
-  // // 1000 毫秒后隐藏 loading
-  // setTimeout(() => {
-  //   uiBuilder.hideLoading();
-  // }, 1000);
-
-  //确保选中了行
-  if (!selection.recordId) {
-    return uiBuilder.text("没有选中任何商机");
-  }
-  //检测当前选中是否在商机管理表
-  if (selection.tableId==null)
-  {
-    return uiBuilder.text("没有选中任何表格");
-  }
-  const selectionTable = await bitable.base.getTableById(selection.tableId);
-  const selectionTableName = await selectionTable.getName();
-  if (selectionTableName != Config.TAB_NAME_SJGL) {
-    return uiBuilder.text("选中的表格不是商机表");
-  }
-
-  //确定要填入的字段值
-  //--显示核对数据：
-  //客户=.对接客户
-  //支局=.支局
-  //最近跟进时间
-
-  //支局
-  const cellStrZhiJu = await selectionTable.getCellString(sjglZhiJu.id, selection.recordId);
-  //预计金额
-  const cellStrZhiJuYuJiJinE = await selectionTable.getCellString(sjglYuJiJinE.id, selection.recordId);
-  //客户
-  const cellStrKeHu = await selectionTable.getCellString(sjglKeHu.id, selection.recordId);
-
-
-  //--写入数据：
-  //客户 客户=引用
-  const cellValueKeHu = BitableHelper.createOpenLink(selection.recordId, selection.tableId);
-  // 查重，确保不要重复写入客户
-  const isYiShangBao = await selectionTable.getCellString(sjglYiShangBao.id,selection.recordId);
-  if (isYiShangBao)
-  {
-    return uiBuilder.markdown(`该商机已上报: 【${cellStrKeHu}】，不需要重复上报`);
-  }
-  
-  // //支局
-  // // const cellValueZhiJu = await selectionTable.getCellValue(sjglZhiJu.id,selection.recordId);
-  // //写入单选之前需要确保选项都有
-  // //去掉type属性 才能修改，修改单选，把选项同步过去 需要合并，原先已有的id不能改
-  // let tryFind = await tjzbZhiJu.property.options.find((li) => li.name == cellStrZhiJu);
-  // if (!tryFind) {
-  //   let zhiJuPropertyAltered = { options: tjzbZhiJu.property.options.concat([]) };
-  //   let tryFindSrc = await sjglZhiJu.property.options.find((li) => li.name == cellStrZhiJu);
-  //   zhiJuPropertyAltered.options.push(tryFindSrc);
-  //   let setConfig = { name: sjglZhiJu.name, property: zhiJuPropertyAltered };
-  //   console.log("检查到新选项" + cellStrZhiJu + "，修改字段选项", JSON.stringify(setConfig));
-  //   // const updateTjzbZhiJuRes = await tjzbTable.setField(tjzbZhiJu.id, setConfig);
-  //   // 目前由于bitable的api会导致选项修改后所有已填内容丢失，因此暂时先提示人工调整字段。
-  //   uiBuilder.markdown(`**发现问题**：请先手动添加新选项**${cellStrZhiJu}**到[${Config.TAB_NAME_TJZB}]表[**${Config.FIELD_SJGL_ZJ}**]选项`);
-  //   return;
-  // }
-
-  // // 单选的id不同，还需要找到写入目标表的id
-  // const cellValueZhiJu = await tjzbZhiJu.property.options.find((li) => li.name == cellStrZhiJu);
-  // console.log("cellValueZhiJu", cellValueZhiJu);
-  
-
-
-  uiBuilder.markdown(`确认要上报的商机：
-  - ${cellStrKeHu}
-  - 预计商机金额${cellStrZhiJuYuJiJinE}`);
 
   uiBuilder.form((form) => ({
     formItems: [],
-    buttons: ['提交上报'],
-  }), async ({ key, values }) => {
-    if (key == "提交上报") {
+    buttons: ['生成上月'],
+  }), async ({key, values}) => {
+    if (key == "生成上月") {
       //写入数据
       const flushData = async () => {
+        // 计算一个上月1日的日期
+        let zhouQiQiDate = new Date();
+        zhouQiQiDate.setDate(1);
+        zhouQiQiDate.setMonth(zhouQiQiDate.getMonth() - 1);
+        zhouQiQiDate.setHours(0);
+        zhouQiQiDate.setMinutes(0);
+        zhouQiQiDate.setSeconds(0);
+        zhouQiQiDate.setMilliseconds(0);
+
         //显示加载
-        uiBuilder.showLoading('Loading...');
-        await tjzbTable.addRecord({
-          fields: {
-            [tjzbKeHu.id]: cellValueKeHu
+        uiBuilder.showLoading('插入中，请不要重复点击，以免造成数据错误...');
+
+        // 遍历花名册表，所有本月在职人员全部需要插入任务清单一次
+        const sohuamingceRecords = await huamingceTable.getRecordIdList();
+        //从中提取需要的record
+        let done=0;
+        for (let huamingceRecordId of sohuamingceRecords) {
+          done++;
+
+          // console.log("default/flushData 写入"+done+"/"+sohuamingceRecords.length);
+          //每一条记录插入一次
+          if ( !huamingceRecordId )
+          {
+            console.warn("default/flushData", "sopRecordId is null");
+            continue;
           }
-        });
+          const curHuamingceRecord = await huamingceTable.getRecordById(huamingceRecordId);
+          // 筛选（只处理）上月在职的人员
+          let nameStr = await huamingceTable.getCellString(hmcName.id, huamingceRecordId);
+          let isOnJobStr = await huamingceTable.getCellString(hmcShiFouZaiZhiLastMonth.id, huamingceRecordId);
+          // console.log("default/flushData Row=",name,isOnJob,isOnJobStr);
+          if (isOnJobStr!="在职")
+          {//跳过不在职的人员
+            uiBuilder.showLoading('跳过'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
+            console.log('跳过'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
+
+            continue;
+          }
+
+          //todo 目标已存在则去重 (目前没做)
+
+          // // 员工
+          // 周期起
+          const cellValueZhouQiQi = zhouQiQiDate.valueOf();
+
+          const cellValueYuanGong = BitableHelper.createOpenLink(huamingceRecordId,huamingceTable.id);
+          const cellStringGangWei = await huamingceTable.getCellString(hmcGangWei.id, huamingceRecordId);
+          const cellValueXianZhiXingGongZi = await huamingceTable.getCellValue(hmcXianZhiXingGongZi.id, huamingceRecordId);
+          const cellStringDianMian = await huamingceTable.getCellString(hmcDianMian.id, huamingceRecordId);
+
+          const cellValueGangWei=BitableHelper.createText(cellStringGangWei);
+          const cellValueDianMian=BitableHelper.createText(cellStringDianMian);
+          console.log("default/flushData cellValueXianZhiXingGongZi=",cellValueXianZhiXingGongZi,cellStringDianMian,cellValueGangWei);
+          // //
+          uiBuilder.showLoading('插入'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
+          console.log('插入'+nameStr+done+"/"+sohuamingceRecords.length+'，请不要重复点击，以免造成数据错误...');
+          // console.log("default/flushData",cellValueFuZeRen);
+          //
+          const kaoqinId= await kaoqinTable.addRecord({
+            fields: {
+              [kaoqinYuanGong.id]: cellValueYuanGong,
+              [kaoqinPrdStart.id]: cellValueZhouQiQi,
+              [kaoqinSuoShuDianMian.id]: [cellValueDianMian],
+              [kaoqinXianZhiXingGongZi.id]: cellValueXianZhiXingGongZi,
+              [kaoqinGangWei.id]:  [cellValueGangWei],
+            }
+          });
+
+          // 同时写入工资表
+          const cellValueKaoQinZhouQi = BitableHelper.createOpenLink(kaoqinId,kaoqinTable.id);
+            await gongziTable.addRecord({
+                        fields: {
+                            [gongziKaoQinZhouQi.id]: cellValueKaoQinZhouQi,
+                        }
+            });
+        }
+
         uiBuilder.hideLoading();
         uiBuilder.message.success(`已经写入完毕`);
+
+        uiBuilder.clear();
+        uiBuilder.markdown(`**生成考勤表**
+ 已执行完毕，请关闭或重新运行`);
       }
       flushData();
     }

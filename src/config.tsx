@@ -1,15 +1,28 @@
 export default class Config {
-  //表格名
-  public static TAB_NAME_SJGL: string = "💰商机管理";
-  public static TAB_NAME_TJZB: string = "📋楼宇攻坚报表（提交总部）";
+    //表格名
+    public static TAB_NAME_HUAMINGCE: string = "A.花名册";
+    public static TAB_NAME_KAOQIN: string = "B.考勤表";
+    public static TAB_NAME_GONGZI: string = "C.工资表";
 
-  //商机管理的字段
-  public static FIELD_SJGL_ZJ: string = "支局";
-  public static FIELD_SJGL_KEHU: string = "商机名称";
-  public static FIELD_SJGL_YUJIJINE: string = "预计商机金额";
-  public static FIELD_SJGL_YISHANGBAO: string = "是否已上报";
+    //花名册的字段
+    public static FIELD_HUAMINGCE_ShangYueShiFouZaiZhi: string = "上月是否在职";
+    public static FIELD_HUAMINGCE_Name: string = "姓名";
+    public static FIELD_HUAMINGCE_BENYUESHIFOUZAIZHI: string = "本月是否在职";
+  public static FIELD_HMC_GangWei: string = "岗位";
+  public static FIELD_HMC_XianZhiXingGongZi: string = "现执行工资";
+  public static FIELD_HMC_DianMian: string = "店面";
 
-  //提交总部的字段：
-  public static FIELD_TJZB_KEHU: string = "客户名称";
+    //考勤表的字段：
+    public static FIELD_REF_YuanGong: string = "员工";
+    public static FIELD_Date_PrdStart: string = "周期起";
+    // 考勤表自动写入的字段：
+  public static FIELD_KQ_SuoShuDianMian: string = "所属店面";
+  public static FIELD_KQ_GangWei: string = "岗位";
+  public static FIELD_KQ_XianZhiXingGongZi: string = "现执行工资";
+
+
+  //工资表的字段：
+    public static FIELD_TXT_XuHao: string = "序号";
+    public static FIELD_REF_KaoQinZhouQi: string = "考勤周期";
 
 }
